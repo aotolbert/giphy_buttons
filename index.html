@@ -11,7 +11,7 @@
 <body>
     <div class="container">
     <div class="row mt-3">
-    <h2>We love gifs!! Espically when it comes to animals. Click a button to see some gifs of your favorite animal. If you don't see your favorite animal, add it to the list!</h2>
+    <h2 class="text-center">We love gifs!! Especially ones that involve animals. Click a button to see some gifs of your our favorite animals. If you don't see your favorite animal, add it to the list!</h2>
     </div>
 
     <div class="row" id="buttonrow">
@@ -90,15 +90,15 @@
 
                         console.log(stillURL);
 
-                        var gifdiv = $("<div>");
+                        var gifdiv = $("<div>").addClass("text-center");
 
-                        var ratingslot = $("<h4>");
+                        var ratingslot = $("<h4>").addClass("text-center");
                         
                         ratingslot.text("Rating: " + response.data[j].rating);
 
-                        var newimage = $("<img>");
+                        var newimage = $("<img>").addClass("text-center");
 
-                        newimage.attr("src", stillURL).attr("data-still", stillURL).attr("data-animate", activeURL).attr("data-state", "still").attr("id", "gif").addClass("m-2");
+                        newimage.attr("src", stillURL).attr("data-still", stillURL).attr("data-animate", activeURL).attr("data-state", "still").attr("id", "gif");
 
                         console.log(stillURL);
                         console.log(activeURL);
