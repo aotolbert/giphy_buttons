@@ -90,20 +90,22 @@
 
                         console.log(stillURL);
 
-                        var gifdiv = $("<div>").addClass("text-center");
+                        var gifdiv = $("<div>").addClass("text-center border shadow mb-5 mt-3");
 
                         var ratingslot = $("<h4>").addClass("text-center");
-                        
                         ratingslot.text("Rating: " + response.data[j].rating);
+
+                        var titleslot = $("<h4>").addClass("text-center");
+                        titleslot.text("Title: " + response.data[j].title);
 
                         var newimage = $("<img>").addClass("text-center");
 
-                        newimage.attr("src", stillURL).attr("data-still", stillURL).attr("data-animate", activeURL).attr("data-state", "still").attr("id", "gif");
+                        newimage.attr("src", stillURL).attr("data-still", stillURL).attr("data-animate", activeURL).attr("data-state", "still").attr("id", "gif").addClass("mb-3");
 
                         console.log(stillURL);
                         console.log(activeURL);
 
-                        gifdiv.append(ratingslot).append(newimage);
+                        gifdiv.append(ratingslot).append(titleslot).append(newimage);
 
                         $("#gifarea").append(gifdiv);
                     }
