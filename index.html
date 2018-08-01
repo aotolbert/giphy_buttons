@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Giphy Button Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
+       crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+    <div class="row mt-3">
+    <h2>We love gifs!! Espically when it comes to animals. Click a button to see some gifs of your favorite animal. If you don't see your favorite animal, add it to the list!</h2>
+    </div>
+
+    <div class="row" id="buttonrow">
+
+    </div>
+
+
+    <div class="row mt-5 mb-3">
+        <div class="col-sm-8 mr-3 border rounded" id="gifarea">
+
+        </div>
+
+        <div class="col-sm-3 ml-3 border rounded">
+
+            <form class="p-3" id="addanimal">
+                Add animal: <input type="text" id="newanimal">
+                <input type="button" onclick="storeanimal()" value="Submit">
+
+            </form>
+
+        </div>
+    </div>
+
+
+
+    </div>  
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript">
+
+
+
+            var animals = ["Cat", "Dog", "Mouse", "Rabbit", "Bird", "Squirrel", "Skunk", "Elephant", "Lion", "Tiger", "Bear", "Giraffe", "Camel", "Crab", "Fish", "Shark", "Monkey", "Fox", "Snake"];
+
+            function makebuttons() {
+                for (i=0; i<animals.length; i++) {
+                    console.log(animals[i]);
+                    var newbutton = $("<button>").text(animals[i]).addClass("m-2 pullgif").attr("id", animals[i]);
+                    $("#buttonrow").append(newbutton);
+                };
+
+            };
+
+            makebuttons();
+
+            function storeanimal() {
+                console.log(document.getElementById("newanimal").value);
+                var newanimal = (document.getElementById("newanimal").value);
+                console.log(newanimal);
+                animals.push(newanimal);
+                $("#buttonrow").empty();
+                makebuttons();
+                
+            };  
+
+            function alertanimal() {
+                alert("Youve selected " + $(this).attr("id") + "!");
+            }
+
+            function gifanimal() {
+                var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + $(this).attr("id") + "&api_key=se7ziH9goS2iSddGxT004I9BYeT9BBsC&limit=9";
+                $.ajax({
+                    url: queryURL,
+                    method: "GET",
+                })
+                .then(function(response) {
+
+                    $("#gifarea").empty();
+
+                    console.log(response);
+
+                    for (j=0; j<response.data.length; j++) {
+
+                        var stillURL = response.data[j].images.fixed_height_still.url;
+
+                        var activeURL = response.data[j].images.fixed_height.url;
+
+                        console.log(stillURL);
+
+                        var gifdiv = $("<div>");
+
+                        var ratingslot = $("<h4>");
+                        
+                        ratingslot.text("Rating: " + response.data[j].rating);
+
+                        var newimage = $("<img>");
+
+                        newimage.attr("src", stillURL).attr("data-still", stillURL).attr("data-animate", activeURL).attr("data-state", "still").attr("id", "gif").addClass("m-2");
+
+                        console.log(stillURL);
+                        console.log(activeURL);
+
+                        gifdiv.append(ratingslot).append(newimage);
+
+                        $("#gifarea").append(gifdiv);
+                    }
+
+                });
+            }
+
+            $(document).on("click", ".pullgif", alertanimal);
+
+            $(document).on("click", ".pullgif", gifanimal);
+
+            $(document).on("click", "#gif", animateswitch);
+
+                function animateswitch() {
+
+                console.log("Clicked Gif!!")
+
+                var startanimation = $(this).attr("data-animate");
+
+                var stopanimation = $(this).attr("data-still");
+
+                var state = $(this).attr("data-state");
+
+
+                if (state === "still") {
+                    $(this).attr("src", startanimation);
+                    $(this).attr("data-state", "active");
+                }
+                else {
+                $(this).attr("src", stopanimation);
+                $(this).attr("data-state", "still");
+                }
+            };
+
+        </script>
+    
+</body>
+</html>
